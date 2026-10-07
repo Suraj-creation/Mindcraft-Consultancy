@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/* ============================================================
+   MindCraft — Highland Forest & Gold
+   Ground: highland forest green · Ink: warm ivory · Accent: burnished gold
+   Support: champagne (numerals) · leaf green (marks) · emerald (one band)
+
+   Contrast verified: node scripts/check-contrast.mjs
+   ============================================================ */
+
+@theme {
+  /* --- Ground: a lit forest green, not volcanic black. The previous ground
+     (L 0.198) swallowed photographs and secondary text; this sits high
+     enough that green reads as a colour rather than a tint on black. --- */
+  --color-ground:       oklch(0.272 0.040 160);
+  --color-ground-2:     oklch(0.236 0.040 162);
+  --color-ground-deep:  oklch(0.205 0.036 162);
+  --color-raised:       oklch(0.305 0.042 160);
+  --color-surface:      oklch(0.330 0.044 160);
+  --color-surface-2:    oklch(0.380 0.046 160);
+  /* Emerald: the one saturated green surface — a band, never chrome. */
+  --color-emerald:      oklch(0.345 0.072 158);
+
+  /* --- Ink: warm ivory, nudged toward gold so it sits with the accent --- */
+  --color-ink:          oklch(0.940 0.020 88);
+  --color-ink-strong:   oklch(0.975 0.016 90);
+  --color-ink-2:        oklch(0.835 0.022 88);
+  --color-ink-3:        oklch(0.735 0.022 90);
+
+  /* --- Lines: forest tint.
+     line = decorative separation, line-2 = structure,
+     line-strong = meaning-bearing (selected/active), >=3:1 per WCAG 1.4.11 --- */
+  --color-line:         oklch(0.375 0.040 160);
+  --color-line-2:       oklch(0.465 0.042 160);
+  --color-line-strong:  oklch(0.600 0.040 160);
+
+  /* --- Accent: burnished gold. Text on gold is ground-deep, never white. --- */
+  --color-accent:       oklch(0.820 0.128 84);
+  --color-accent-2:     oklch(0.880 0.105 90);
+  --color-accent-deep:  oklch(0.700 0.125 76);
+  --color-accent-tint:  oklch(0.400 0.070 86);
+
+  /* --- Support: data and annotation, never chrome --- */
+  --color-grass:        oklch(0.885 0.072 92);
+  --color-green:        oklch(0.800 0.120 152);
+
+  --color-success:      oklch(0.720 0.110 150);
+  --color-error:        oklch(0.700 0.150 28);
+
+  /* --- Type families --- */
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "Literata", Georgia, "Times New Roman", serif;
+  --font-mono:    "Spline Sans Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* --- Fluid type scale. Each step >=1.25x its neighbour so hierarchy
+     survives at every viewport. --display is the rare editorial tier.
+     h1-h5/display tuned 2026-09 to reduce vertical scroll: the old clamps
+     hit their max on any viewport above ~1225px, so "fluid" was pinned near
+     the ceiling on every normal desktop. Min/mid/max are scaled down by the
+     same factor each, so the curve's shape and crossover point are
+     unchanged — only the absolute sizes are smaller. --- */
+  --text-eyebrow:   0.75rem;
+  --text-caption:   0.8125rem;
+  --text-body-sm:   0.875rem;
+  --text-body:      1.0625rem;
+  --text-lead:      clamp(1.12rem, 1.00rem + 0.45vw, 1.36rem);
+  --text-h5:        clamp(1.09rem, 0.97rem + 0.45vw, 1.40rem);
+  --text-h4:        clamp(1.36rem, 1.16rem + 0.70vw, 1.95rem);
+  --text-h3:        clamp(1.60rem, 1.20rem + 1.30vw, 2.85rem);
+  --text-h2:        clamp(2.00rem, 1.40rem + 2.00vw, 3.70rem);
+  --text-h1:        clamp(2.40rem, 1.50rem + 3.60vw, 5.60rem);
+  --text-display:   clamp(2.75rem, 1.60rem + 4.80vw, 7.00rem);
+
+  --radius-sharp: 0px;
+  --radius-edge:  3px;
+}
+
+:root {
+  /* Non-utility tokens */
+  /* One edge for the whole site. `default` and `wide` share a width so every
+     section starts on the same left line; the old 1200/1360 pair left ~350px
+     of dead ground each side on a 1920 screen and made edges jump. */
+  --container-text: 880px;
+  --container:      1840px;
+  --container-wide: 1840px;
+  --gutter: clamp(20px, 4.4vw, 88px);
+
+  /* Sticky header height. Heroes size to (viewport − header) and anchor
+     scrolls stop below it, so this is the one place it is defined. */
+  --header-h: 80px;
+
+  --dur-fast: 150ms;
+  --dur:      240ms;
+  --dur-slow: 400ms;
+  --ease:   cubic-bezier(.2, .8, .2, 1);
+  --ease-q: cubic-bezier(.16, 1, .3, 1);
+
+  /* Section rhythm. Three weights, not one — a section that matters
+     gets more room above it. Uniform padding is what reads as templated. */
+  --band-tight: clamp(40px, 3.6vw, 64px);
+  --band:       clamp(56px, 5.2vw, 96px);
+  --band-loose: clamp(72px, 7vw, 124px);
+
+  color-scheme: dark;
+
+  /* --- Legacy aliases -------------------------------------------------
+     ~1,885 call sites still reference the old paper-mode names. These keep
+     them rendering correctly against the dark ground until each page is
+     rebuilt. Do not use these in new code. --------------------------- */
+  --paper:       var(--color-ground);
+  --paper-2:     var(--color-raised);
+  --surface:     var(--color-surface);
+  --ink:         var(--color-ink);
+  --ink-strong:  var(--color-ink-strong);
+  --ink-2:       var(--color-ink-2);
+  --ink-3:       var(--color-ink-3);
+  --line:        var(--color-line);
+  --line-2:      var(--color-line-2);
+  --accent:      var(--color-accent);
+  --accent-2:    var(--color-accent-2);
+  --accent-soft: var(--color-accent-tint);
+  --ink-bg:      var(--color-ground-2);
+  --ink-bg-2:    var(--color-surface);
+  --on-ink:      var(--color-ink);
+  --on-ink-2:    var(--color-ink-2);
+  --on-ink-line: var(--color-line-2);
+  --ochre:       var(--color-grass);
+  --slate:       var(--color-green);
+}
+
+/* Element defaults live in the base layer so Tailwind utilities can override
+   them. Unlayered, these beat every utility: a heading given a gold text class
+   or `font-light` rendered ivory at 440 regardless. */
+@layer base {
+  html { scroll-padding-top: calc(var(--header-h) + 16px); }
+
+  body {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    line-height: 1.62;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Optical sizing is the point of these variable faces — Bricolage carries an
+     opsz 12–96 axis, Literata 7–72. Without it large display type renders with
+     body-weight detail and reads flat. */
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 440;
+    letter-spacing: -0.018em;
+    line-height: 1.06;
+    color: var(--color-ink-strong);
+    text-wrap: balance;
+  }
+
+  h1, .text-h1, .text-display { letter-spacing: -0.026em; }
+
+  p { text-wrap: pretty; }
+
+  .font-body { font-family: var(--font-body); }
+
+  .font-mono {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum" on, "zero" on;
+  }
+
+  a, button {
+    transition: color var(--dur-fast) var(--ease),
+                background-color var(--dur-fast) var(--ease),
+                border-color var(--dur-fast) var(--ease),
+                opacity var(--dur-fast) var(--ease);
+  }
+}
+
+/* Light type on a dark ground reads lighter than it measures — it needs
+   more room than the same text on paper. */
+.measure     { max-width: 68ch; }
+.measure-sm  { max-width: 56ch; }
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ground-deep);
+}
+
+/* Deliberately unlayered: no utility (outline-none included) may remove it. */
+*:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+/* Surfaces we did not draw still carry the design. Left at browser defaults
+   these belong to no design system and read as assembled rather than built. */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--color-ground-deep); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-2);
+  border: 3px solid var(--color-ground-deep);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-line-strong); }
+
+* { scrollbar-color: var(--color-line-2) var(--color-ground-deep); }
+
+input, textarea, select { caret-color: var(--color-accent); }
+
+/* The page's one authored motion moment: the hero resolves in sequence —
+   rule, then headline, then the supporting line. Everywhere else motion is
+   functional only (selection, disclosure). A uniform fade-up on every
+   section is scattered effect, not motion design. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.rise {
+  animation: rise var(--dur-slow) var(--ease-q) both;
+}
+
+/* Cartographic dot-grid for geography surfaces — geographic feel without decoration. */
+.dot-grid {
+  background-image: radial-gradient(var(--color-line-2) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

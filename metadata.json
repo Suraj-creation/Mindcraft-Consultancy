@@ -1,0 +1,6 @@
+{
+  "name": "MindCraft Consultancy",
+  "description": "MindCraft is a Nairobi-headquartered consultancy pairing deep Life Sciences expertise with market research, business consulting, AI training and enterprise AI — with Africa as its primary focus and reach into Europe and the United States.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

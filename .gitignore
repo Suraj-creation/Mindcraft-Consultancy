@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+*.local
+
+# Build output
+out/
+build/
+
+# Tool artifacts
+.superpowers/
+skills-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
+.gstack/
